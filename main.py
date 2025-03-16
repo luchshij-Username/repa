@@ -2,7 +2,7 @@ import telebot
 import random
     # Замени 'TOKEN' на токен твоего бота
     # Этот токен ты получаешь от BotFather, чтобы бот мог работать
-bot = telebot.TeleBot("7833257015:AAHfytF1tU5RLM_YrnA-pMZSiwbLORmSfkE")
+bot = telebot.TeleBot("твой токен")
 symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 spisok = ["/start","/hello","/bye","/help","/pass"]
 
