@@ -1,10 +1,36 @@
+import telebot
+import random
+    # Замени 'TOKEN' на токен твоего бота
+    # Этот токен ты получаешь от BotFather, чтобы бот мог работать
+bot = telebot.TeleBot("7833257015:AAHfytF1tU5RLM_YrnA-pMZSiwbLORmSfkE")
+symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+spisok = ["/start","/hello","/bye","/help","/pass"]
 
-meme_dict = {
-            "КРИНЖ": "Что-то очень странное или стыдное",
-            "ЛОЛ": "Что-то очень смешное"
-            }
-word = input("Введите непонятное слово (большими буквами!): ")
-if word in meme_dict.keys():
-    print(meme_dict[word])
-else:
-    print("ERROR 404")
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь! если ты не знаешь что написать напиши /help")
+    
+@bot.message_handler(commands=['hello'])
+def send_hello(message):
+    bot.reply_to(message, "Привет! Как дела?")
+    
+@bot.message_handler(commands=['bye'])
+def send_bye(message):
+    bot.reply_to(message, "Пока! Удачи!")
+
+@bot.message_handler(commands=['help'])
+def send_list(message):
+    bot.reply_to(message, f"вот текущий список команд: {spisok}")
+    
+@bot.message_handler(commands=['pass'])
+def send_password(message):
+    password = ""
+    for i in range(10):
+        password += symbols[random.randint(0,len(symbols)-1)]
+    bot.reply_to(message, f"Вот твой сгенерированный пароль: {password}")
+
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, message.text)
+    
+bot.polling()
