@@ -38,7 +38,7 @@ def send_password(message):
     bot.reply_to(message, f"Вот твой сгенерированный пароль: {password}")
 
 @bot.message_handler(commands=['calculate'])
-def send_heh(message):
+def calculate(message):
     if len(message.text.split()) == 4:
         if message.text.split()[1].isdigit() == True and message.text.split()[2] in operators and message.text.split()[3].isdigit() == True:
             first = int(message.text.split()[1])
