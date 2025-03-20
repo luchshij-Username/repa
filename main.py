@@ -11,7 +11,7 @@ TOKEN = os.getenv("TOKEN")
 
 bot = TeleBot(TOKEN)
 symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-spisok = ["/start","/hello","/bye","/help","/pass", "/calculate"]
+spisok = ["/start","/hello","/bye","/help","/pass", "/calculate цифра1 оператор цифра2"]
 operators = ["+","-","/","*","%","//","**","&","|","^",">>","<<"]
 
 @bot.message_handler(commands=['start'])
@@ -28,7 +28,7 @@ def send_bye(message):
 
 @bot.message_handler(commands=['help'])
 def send_list(message):
-    bot.reply_to(message, f"вот текущий список команд: {spisok}")
+    bot.reply_to(message, f"вот текущий список команд: {spisok} а вот список всех операторов: {operators}")
     
 @bot.message_handler(commands=['pass'])
 def send_password(message):
