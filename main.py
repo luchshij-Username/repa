@@ -44,11 +44,11 @@ def send_images(message):
         if message.text.split()[1].isdigit() == True:
             a = int(message.text.split()[1])
             if a == 0 or a == 1:
-                with open(f'images/{imglist[a]}', 'rb') as f:  
+                with open(f'{imglist[a]}', 'rb') as f:  
                     bot.send_photo(message.chat.id, f) 
     else:
         a = random.randint(0, 1)
-        with open(f'images/{imglist[a]}', 'rb') as f:  
+        with open(f'{imglist[a]}', 'rb') as f:  
             bot.send_photo(message.chat.id, f)
 
 
