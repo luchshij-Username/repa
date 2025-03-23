@@ -11,8 +11,9 @@ TOKEN = os.getenv("TOKEN")
 
 bot = TeleBot(TOKEN)
 symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-spisok = ["/start","/hello","/bye","/help","/pass", "/calculate цифра1 оператор цифра2"]
+spisok = ["/start","/hello","/bye","/help","/pass", "/calculate цифра1 оператор цифра2", "/mem 0,1 или ничего", "/bestanimal"]
 operators = ["+","-","/","*","%","//","**","&","|","^",">>","<<"]
+imglist = (os.listdir('images'))
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -36,6 +37,30 @@ def send_password(message):
     for i in range(10):
         password += symbols[random.randint(0,len(symbols)-1)]
     bot.reply_to(message, f"Вот твой сгенерированный пароль: {password}")
+
+@bot.message_handler(commands=['mem'])
+def send_images(message):
+    if len(message.text.split()) == 2:
+        if message.text.split()[1].isdigit() == True:
+            a = int(message.text.split()[1])
+            if a == 0 or a == 1:
+                with open(f'images/{imglist[a]}', 'rb') as f:  
+                    bot.send_photo(message.chat.id, f) 
+    else:
+        a = random.randint(0, 1)
+        with open(f'images/{imglist[a]}', 'rb') as f:  
+            bot.send_photo(message.chat.id, f)
+
+
+def bestanimalurl():    
+    url = 'https://randomfox.ca/floof/'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+@bot.message_handler(commands=['bestanimal'])
+def fox(message):
+    image_url = bestanimalurl()
+    bot.reply_to(message, image_url)
 
 @bot.message_handler(commands=['calculate'])
 def calculate(message):
