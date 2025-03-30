@@ -11,7 +11,7 @@ TOKEN = os.getenv("TOKEN")
 
 bot = TeleBot(TOKEN)
 symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-spisok = ["/start","/hello","/bye","/help","/pass", "/calculate цифра1 оператор цифра2", "/mem 0,1 или ничего", "/bestanimal"]
+spisok = ["/start","/EcoFact","/hello","/bye","/help","/pass 1-100 или ничего", "/calculate цифра1 оператор цифра2", "/mem 0,1 или ничего", "/bestanimal"]
 operators = ["+","-","/","*","%","//","**","&","|","^",">>","<<"]
 eco = ["В Тихом океане есть мусорное пятно, площадь которого достигает 1,5 млн км², что больше площади большинства стран мира. Течения сносят сюда миллионы тонн мусора ежегодно, и он превратился в подобие мусорного континента.",
 "Около 12% поверхности нашей планеты имеют заповедный статус.", 
@@ -46,8 +46,15 @@ def send_list(message):
 @bot.message_handler(commands=['pass'])
 def send_password(message):
     password = ""
-    for i in range(10):
-        password += symbols[random.randint(0,len(symbols)-1)]
+    if len(message.text.split()) == 2:
+        if message.text.split()[1].isdigit() == True:
+            if int(message.text.split()[1]) >= 1 and int(message.text.split()[1]) <= 100:
+                a = int(message.text.split()[1])
+                for i in range(a):
+                    password += symbols[random.randint(0,len(symbols)-1)]
+    else:
+        for i in range(10):
+            password += symbols[random.randint(0,len(symbols)-1)]
     bot.reply_to(message, f"Вот твой сгенерированный пароль: {password}")
 
 @bot.message_handler(commands=['mem'])
@@ -106,9 +113,9 @@ def calculate(message):
             elif operator == "<<":
                 bot.reply_to(message, first << second)
         else:
-            bot.reply_to(message, "error2")
+            bot.reply_to(message, "что-то не так с содержимом")
     else:
-        bot.reply_to(message, "error1")
+        bot.reply_to(message, "твое сообщение слишком короткое\длинное")
 
 @bot.message_handler(func=lambda message: True)
 def echo_all(message):
