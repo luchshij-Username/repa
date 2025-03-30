@@ -13,12 +13,24 @@ bot = TeleBot(TOKEN)
 symbols = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 spisok = ["/start","/hello","/bye","/help","/pass", "/calculate цифра1 оператор цифра2", "/mem 0,1 или ничего", "/bestanimal"]
 operators = ["+","-","/","*","%","//","**","&","|","^",">>","<<"]
+eco = ["В Тихом океане есть мусорное пятно, площадь которого достигает 1,5 млн км², что больше площади большинства стран мира. Течения сносят сюда миллионы тонн мусора ежегодно, и он превратился в подобие мусорного континента.",
+"Около 12% поверхности нашей планеты имеют заповедный статус.", 
+"Ежегодно на Земле высаживается лишь около 10% деревьев от того их числа, которое вырубается за тот же срок.",
+"Переработка отходов важна не только потому, что это экономит ресурсы, но и потому, что обычный пластик разлагается в природе более 500 лет.",
+"Повышение средней мировой температуры всего на 3-4 градуса может привести к таянию льдов, глобальному наводнению и исчезновению большей части лесов на Земле.",
+"Более 50% мирового урожая зерна идёт на корм скоту и на производство биотоплива.", 
+"Для производства экологически чистых электромобилей используется масса вредных технологий, загрязняющих окружающую среду. В основном для производства их аккумуляторов."]
 imglist = (os.listdir('images'))
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, "Привет! Я твой Telegram бот. Напиши что-нибудь! если ты не знаешь что написать напиши /help")
-    
+
+@bot.message_handler(commands=["EcoFact"])
+def send_fact(message):
+    randfact = eco[random.randint(0, len(eco)-1)]
+    bot.reply_to(message, f"а ты знал что {randfact}")
+
 @bot.message_handler(commands=['hello'])
 def send_hello(message):
     bot.reply_to(message, "Привет! Как дела?")
@@ -44,11 +56,11 @@ def send_images(message):
         if message.text.split()[1].isdigit() == True:
             a = int(message.text.split()[1])
             if a == 0 or a == 1:
-                with open(f'{imglist[a]}', 'rb') as f:  
+                with open(f'images/{imglist[a]}', 'rb') as f:  
                     bot.send_photo(message.chat.id, f) 
     else:
         a = random.randint(0, 1)
-        with open(f'{imglist[a]}', 'rb') as f:  
+        with open(f'images/{imglist[a]}', 'rb') as f:  
             bot.send_photo(message.chat.id, f)
 
 
